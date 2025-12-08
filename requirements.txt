@@ -1,0 +1,36 @@
+# Python dependencies for DhruvX LEO-PNT Receiver
+
+# Core scientific computing
+numpy>=1.21.0
+scipy>=1.7.0
+
+# SDR and signal processing
+pyrtlsdr>=0.2.91
+
+# GNSS serial communication
+pyserial>=3.5
+pynmea2>=1.18.0
+
+# I2C for IMU (Raspberry Pi)
+smbus2>=0.4.1
+
+# Satellite orbit propagation
+skyfield>=1.42
+
+# Machine Learning
+tensorflow>=2.10.0  # For CNN and LSTM
+scikit-learn>=1.0.0  # For Isolation Forest and SVM
+joblib>=1.1.0        # For model persistence
+
+# Database - Real-time data streaming
+supabase>=2.0.0      # Supabase Python client
+python-dotenv>=1.0.0 # Environment variable management
+
+# Configuration
+pyyaml>=6.0          # YAML config file parsing
+
+# Utilities
+python-dateutil>=2.8.0  # Date/time handling
+
+# Visualization (optional)
+matplotlib>=3.5.0
