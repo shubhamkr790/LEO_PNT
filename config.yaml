@@ -1,0 +1,90 @@
+# DhruvX LEO-PNT Configuration File
+
+# Hardware Configuration
+hardware:
+  sdr:
+    device_index: 0
+    center_freq: 1621000000  # Hz (1621 MHz for Iridium)
+    sample_rate: 2400000      # Hz (2.4 MHz)
+    gain: auto                # 'auto' or dB value
+    ppm: 0                    # Frequency correction in PPM
+  
+  gnss:
+    port: /dev/ttyUSB0        # Serial port (Windows: COM3)
+    baudrate: 9600
+    timeout: 1.0
+  
+  imu:
+    enabled: true
+    bus_number: 1
+    device_addr: 0x68         # MPU-9250: 0x68, BNO055: 0x28
+    type: mpu9250             # 'mpu9250' or 'bno055'
+
+# TLE Configuration
+tle:
+  file: tles/iridium.txt
+  update_interval: 3600       # Seconds between TLE updates
+
+# DSP Configuration
+dsp:
+  stft:
+    nperseg: 1024
+    noverlap: 512
+    window: hann
+  
+  doppler:
+    search_range: 10000       # Hz (±)
+    integration_time: 0.1     # Seconds
+    min_snr: -10              # dB
+
+# EKF Configuration
+ekf:
+  process_noise:
+    position: 0.01            # meters²
+    velocity: 1.0             # (m/s)²
+    clock_bias: 0.1           # meters²
+    clock_drift: 0.01         # (m/s)²
+  
+  initial_uncertainty:
+    position: 1000.0          # meters
+    velocity: 10.0            # m/s
+    clock_bias: 100.0         # meters
+
+# Cognitive Layer Configuration
+cognitive:
+  weights:
+    snr_min: -10.0            # dB
+    snr_max: 20.0             # dB
+    anomaly_penalty: 0.5
+    min_measurement_weight: 0.3
+  
+  environment_weights:
+    open_sky: 1.0
+    urban: 0.7
+    indoor: 0.3
+
+# Database Configuration (Supabase)
+database:
+  enabled: false              # Enable real-time database streaming
+  provider: supabase          # Database provider (supabase, postgres, etc.)
+  table_name: navigation_data # Table name for navigation data
+  batch_size: 1               # Number of records to batch before insert
+  retry_attempts: 3           # Number of retry attempts on failure
+  
+  # Load credentials from .env file
+  # Required env vars: SUPABASE_URL, SUPABASE_KEY
+  use_env: true
+
+# Logging
+logging:
+  level: INFO                 # DEBUG, INFO, WARNING, ERROR
+  file: null                  # Path to log file (null = console only)
+  max_size: 10485760          # Bytes (10 MB)
+  backup_count: 5
+
+# Runtime Options
+runtime:
+  update_rate: 10             # Hz
+  max_visible_sats: 10        # Process N visible satellites
+  output_format: database     # 'nmea', 'json', 'csv', 'database'
+  enable_console_output: true # Show output in console even when using database
