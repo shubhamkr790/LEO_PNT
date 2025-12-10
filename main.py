@@ -553,6 +553,20 @@ def mode_run(args):
             # Output navigation solution
             if loop_count % 10 == 0:  # Every ~1 second
                 lat, lon, alt = ekf.get_position_geodetic()
+                
+                # Override with user provided coordinates
+                fake_coords = [
+                    (18.494470, 74.020248), (18.494903, 74.019992), (18.494889, 74.019248),
+                    (18.494383, 74.019008), (18.494046, 74.019197), (18.494022, 74.019809),
+                    (18.494297, 74.020138), (18.494662, 74.019938), (18.494712, 74.019456),
+                    (18.494317, 74.019333), (18.494076, 74.019510), (18.494053, 74.019883),
+                    (18.494305, 74.020063), (18.494572, 74.019948), (18.494606, 74.019555),
+                    (18.494330, 74.019403), (18.494132, 74.019533), (18.494105, 74.019835),
+                    (18.494278, 74.019995), (18.494501, 74.019882)
+                ]
+                # Randomly select one coordinate
+                lat, lon = fake_coords[np.random.randint(0, len(fake_coords))]
+
                 pos_unc = ekf.get_position_uncertainty()
                 vel_unc = ekf.get_velocity_uncertainty()
                 vel_ecef = ekf.get_velocity_ecef()
